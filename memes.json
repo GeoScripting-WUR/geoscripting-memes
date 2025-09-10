@@ -1,25 +1,28 @@
 {
-  "AI": [
-    "memes/AI/Meme4.jpg"
+  "Monday": [
+    "memes/Monday/monday_48e4.jpg",
+    "memes/Monday/monday_4de4.jpg",
+    "memes/Monday/monday_962b.jpg",
+    "memes/Monday/monday_9a97.jpg",
+    "memes/Monday/monday_b852.jpg",
+    "memes/Monday/monday_c493.jpg"
   ],
-  "Bash": [
-    "memes/Bash/bash_204b.jpg",
-    "memes/Bash/bash_41ec.jpg",
-    "memes/Bash/bash_42b9.jpg",
-    "memes/Bash/bash_8565.png",
-    "memes/Bash/bash_a45a.jpg",
-    "memes/Bash/bash_e854.png"
-  ],
-  "Friday": [
-    "memes/Friday/friday_4529.jpg",
-    "memes/Friday/friday_4683.png",
-    "memes/Friday/friday_4ee2.jpg",
-    "memes/Friday/friday_560b.jpg",
-    "memes/Friday/friday_8e3a.jpg",
-    "memes/Friday/friday_8ec2.jpg",
-    "memes/Friday/friday_b30b.jpg",
-    "memes/Friday/friday_b381.jpg",
-    "memes/Friday/friday_e8bc.png"
+  "R": [
+    "memes/R/R-vector.jpg",
+    "memes/R/R_3467.jpeg",
+    "memes/R/R_496b.png",
+    "memes/R/R_4a97.jpg",
+    "memes/R/R_4c5c.jpg",
+    "memes/R/R_4e94.png",
+    "memes/R/R_63c5.png",
+    "memes/R/R_7a2d.jpg",
+    "memes/R/R_8e00.png",
+    "memes/R/R_a1bb.png",
+    "memes/R/R_a4ee.jpg",
+    "memes/R/R_a57a.jpeg",
+    "memes/R/R_b036.webp",
+    "memes/R/R_d1d3.png",
+    "memes/R/git_7b71.png"
   ],
   "General": [
     "memes/General/comments.jpg",
@@ -84,6 +87,27 @@
     "memes/General/geoscripting-ta.jpg",
     "memes/General/recursion.jpg"
   ],
+  "Project&Assignment": [
+    "memes/Project&Assignment/assign_d9d2.png",
+    "memes/Project&Assignment/ex5_8447.png",
+    "memes/Project&Assignment/geoscripting_project.jpg",
+    "memes/Project&Assignment/project_1d3a.jpg",
+    "memes/Project&Assignment/project_227a.jpg",
+    "memes/Project&Assignment/project_4677.jpg",
+    "memes/Project&Assignment/project_49fd.png",
+    "memes/Project&Assignment/project_4a92.jpg",
+    "memes/Project&Assignment/project_4d37.jpg",
+    "memes/Project&Assignment/project_873e.jpg",
+    "memes/Project&Assignment/project_9d3d.png",
+    "memes/Project&Assignment/project_b773.png",
+    "memes/Project&Assignment/project_f7ad.jpg"
+  ],
+  "Licenses": [
+    "memes/Licenses/License.jpg",
+    "memes/Licenses/git_35f9.jpg",
+    "memes/Licenses/git_46d1.jpg",
+    "memes/Licenses/license2.jpg"
+  ],
   "Git": [
     "memes/Git/Meme1.jpg",
     "memes/Git/Meme10.png",
@@ -133,34 +157,19 @@
     "memes/Git/reddit.jpg",
     "memes/Git/usetheforce.jpg"
   ],
-  "Licenses": [
-    "memes/Licenses/License.jpg",
-    "memes/Licenses/git_35f9.jpg",
-    "memes/Licenses/git_46d1.jpg",
-    "memes/Licenses/license2.jpg"
+  "Friday": [
+    "memes/Friday/friday_4529.jpg",
+    "memes/Friday/friday_4683.png",
+    "memes/Friday/friday_4ee2.jpg",
+    "memes/Friday/friday_560b.jpg",
+    "memes/Friday/friday_8e3a.jpg",
+    "memes/Friday/friday_8ec2.jpg",
+    "memes/Friday/friday_b30b.jpg",
+    "memes/Friday/friday_b381.jpg",
+    "memes/Friday/friday_e8bc.png"
   ],
-  "Monday": [
-    "memes/Monday/monday_48e4.jpg",
-    "memes/Monday/monday_4de4.jpg",
-    "memes/Monday/monday_962b.jpg",
-    "memes/Monday/monday_9a97.jpg",
-    "memes/Monday/monday_b852.jpg",
-    "memes/Monday/monday_c493.jpg"
-  ],
-  "Project&Assignment": [
-    "memes/Project&Assignment/assign_d9d2.png",
-    "memes/Project&Assignment/ex5_8447.png",
-    "memes/Project&Assignment/geoscripting_project.jpg",
-    "memes/Project&Assignment/project_1d3a.jpg",
-    "memes/Project&Assignment/project_227a.jpg",
-    "memes/Project&Assignment/project_4677.jpg",
-    "memes/Project&Assignment/project_49fd.png",
-    "memes/Project&Assignment/project_4a92.jpg",
-    "memes/Project&Assignment/project_4d37.jpg",
-    "memes/Project&Assignment/project_873e.jpg",
-    "memes/Project&Assignment/project_9d3d.png",
-    "memes/Project&Assignment/project_b773.png",
-    "memes/Project&Assignment/project_f7ad.jpg"
+  "AI": [
+    "memes/AI/Meme4.jpg"
   ],
   "Python": [
     "memes/Python/python_1f1e.jpg",
@@ -179,21 +188,12 @@
     "memes/Python/python_b6ca.jpg",
     "memes/Python/python_f669.jpg"
   ],
-  "R": [
-    "memes/R/R-vector.jpg",
-    "memes/R/R_3467.jpeg",
-    "memes/R/R_496b.png",
-    "memes/R/R_4a97.jpg",
-    "memes/R/R_4c5c.jpg",
-    "memes/R/R_4e94.png",
-    "memes/R/R_63c5.png",
-    "memes/R/R_7a2d.jpg",
-    "memes/R/R_8e00.png",
-    "memes/R/R_a1bb.png",
-    "memes/R/R_a4ee.jpg",
-    "memes/R/R_a57a.jpeg",
-    "memes/R/R_b036.webp",
-    "memes/R/R_d1d3.png",
-    "memes/R/git_7b71.png"
+  "Bash": [
+    "memes/Bash/bash_204b.jpg",
+    "memes/Bash/bash_41ec.jpg",
+    "memes/Bash/bash_42b9.jpg",
+    "memes/Bash/bash_8565.png",
+    "memes/Bash/bash_a45a.jpg",
+    "memes/Bash/bash_e854.png"
   ]
 }
