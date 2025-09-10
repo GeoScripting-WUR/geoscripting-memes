@@ -1,0 +1,38 @@
+name: Update memes.json
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'memes/**'
+      - '.github/workflows/update-memes.yml'
+      - 'generate_memes_json.py'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run meme generator
+        run: python generate_memes_json.py
+
+      - name: Commit updated memes.json
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add memes.json
+          git commit -m "chore: auto-update memes.json" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

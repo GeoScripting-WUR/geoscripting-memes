@@ -1,0 +1,25 @@
+{
+  "git": [
+    "memes/git/codegrade-issues.jpg",
+    "memes/git/codegrade.jpg",
+    "memes/git/codegrade_hate.jpg",
+    "memes/git/comments.jpg",
+    "memes/git/detached.jpg",
+    "memes/git/geoscripting-ta.jpg",
+    "memes/git/geoscripting_project.jpg",
+    "memes/git/git_push.jpg",
+    "memes/git/gitcola-hate.jpg"
+  ],
+  "python": [
+    "memes/python/R-vector.jpg",
+    "memes/python/recursion.jpg",
+    "memes/python/reddit.jpg",
+    "memes/python/usetheforce.jpg"
+  ],
+  "js": [
+    "memes/js/License.jpg",
+    "memes/js/license2.jpg",
+    "memes/js/merge-conflict.jpg",
+    "memes/js/mergeconflict.jpg"
+  ]
+}

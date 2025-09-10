@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meme Slideshow</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="slideshow-container">
+    <div class="meme-display">
+      <img id="memeImage" src="" alt="Meme" />
+    </div>
+    
+    <div class="media-controls">
+      <div class="control-row">
+        <select id="themeSelector"></select>
+        <div class="playback-controls">
+          <button id="prevBtn">⏮</button>
+          <button id="playPauseBtn">⏸</button>
+          <button id="nextBtn">⏭</button>
+        </div>
+        <div class="interval-control">
+          <label for="intervalSlider"><span id="intervalValue">30</span>s</label>
+          <input type="range" id="intervalSlider" min="10" max="120" step="10" value="30" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/slideshow.js"></script>
+</body>
+</html>

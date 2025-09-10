@@ -1,0 +1,237 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #000;
+  color: #fff;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slideshow-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+}
+
+.meme-display {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  position: relative;
+}
+
+.meme-display img {
+  width: 100%;
+  height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+  object-fit: contain;
+  object-position: center;
+  transition: all 0.3s ease;
+}
+
+.meme-display img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.9);
+}
+
+.media-controls {
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 20px;
+  position: relative;
+}
+
+/* Theme Selector - positioned on the left */
+#themeSelector {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  min-width: 120px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: absolute;
+  left: 0;
+}
+
+#themeSelector:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+#themeSelector option {
+  background: #333;
+  color: #fff;
+}
+
+/* Playback Controls */
+.playback-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.playback-controls button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.playback-controls button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.playback-controls button:active {
+  transform: scale(0.98);
+}
+
+#playPauseBtn {
+  width: 52px;
+  height: 52px;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+#playPauseBtn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Interval Control - positioned on the right */
+.interval-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 140px;
+  position: absolute;
+  right: 0;
+}
+
+.interval-control label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+  min-width: 30px;
+  text-align: center;
+}
+
+.interval-control input[type="range"] {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.interval-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.interval-control input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.interval-control input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .control-row {
+    flex-direction: column;
+    gap: 15px;
+    position: static;
+  }
+  
+  .playback-controls {
+    order: -1;
+  }
+  
+  .interval-control {
+    width: 100%;
+    max-width: 200px;
+    position: static;
+  }
+  
+  #themeSelector {
+    width: 100%;
+    max-width: 200px;
+    position: static;
+  }
+}
+
+@media (max-width: 480px) {
+  .meme-display {
+    padding: 3px;
+  }
+  
+  .meme-display img {
+    height: 85vh;
+  }
+  
+  .media-controls {
+    padding: 8px;
+  }
+  
+  .playback-controls button {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+  
+  #playPauseBtn {
+    width: 48px;
+    height: 48px;
+    font-size: 16px;
+  }
+}
