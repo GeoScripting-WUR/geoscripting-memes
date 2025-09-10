@@ -12,9 +12,28 @@
       <img id="memeImage" src="" alt="Meme" />
     </div>
     
+    <!-- Folder Selection Dialog -->
+    <div id="folderDialog" class="dialog-overlay">
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <h3>📁 Select Meme Folders</h3>
+          <button id="closeDialog" class="close-btn">&times;</button>
+        </div>
+        <div class="dialog-body">
+          <p>Choose which meme folders to include in your slideshow:</p>
+          <div id="folderCheckboxes">
+            <!-- Checkboxes will be generated dynamically -->
+          </div>
+        </div>
+        <div class="dialog-footer">
+          <button id="applyFolders" class="apply-btn">Apply Selection</button>
+        </div>
+      </div>
+    </div>
+
     <div class="media-controls">
       <div class="control-row">
-        <select id="themeSelector"></select>
+        <button id="folderBtn" class="folder-btn" title="Select Folders">📁</button>
         <div class="playback-controls">
           <button id="prevBtn">⏮</button>
           <button id="playPauseBtn">⏸</button>
