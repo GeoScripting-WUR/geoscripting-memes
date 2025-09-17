@@ -1,6 +1,13 @@
 {
   "AI": [
-    "memes/AI/Meme4.jpg"
+    "memes/AI/Meme4.jpg",
+    "memes/AI/a6527u.jpg",
+    "memes/AI/a652ug.jpg",
+    "memes/AI/aimeme.jpg",
+    "memes/AI/gen_4efb.png",
+    "memes/AI/gen_76cc.jpg",
+    "memes/AI/gen_bca3.jpg",
+    "memes/AI/gen_n13k.jpg"
   ],
   "Bash": [
     "memes/Bash/bash_204b.jpg",
@@ -22,9 +29,10 @@
     "memes/Friday/friday_e8bc.png"
   ],
   "General": [
+    "memes/General/EverythingIsFine.jpg",
+    "memes/General/Untitled.jpg",
     "memes/General/comments.jpg",
     "memes/General/days_4a68.jpg",
-    "memes/General/days_5e77.jpg",
     "memes/General/gen_0062.jpg",
     "memes/General/gen_06b1.jpg",
     "memes/General/gen_1bb0.png",
@@ -52,10 +60,8 @@
     "memes/General/gen_4c2f.jpg",
     "memes/General/gen_4d08.jpg",
     "memes/General/gen_4e2e.png",
-    "memes/General/gen_4efb.png",
     "memes/General/gen_5919.jpg",
     "memes/General/gen_6f5e.png",
-    "memes/General/gen_76cc.jpg",
     "memes/General/gen_7eaf.jpg",
     "memes/General/gen_7f20.jpg",
     "memes/General/gen_837d.jpg",
@@ -72,16 +78,12 @@
     "memes/General/gen_a9c9.png",
     "memes/General/gen_abca.jpg",
     "memes/General/gen_adc9.jpg",
-    "memes/General/gen_b1c4.png",
     "memes/General/gen_b6fd.jpg",
     "memes/General/gen_bbe3.jpg",
-    "memes/General/gen_bca3.jpg",
     "memes/General/gen_bf24.jpg",
     "memes/General/gen_ca66.jpg",
     "memes/General/gen_e117.jpg",
     "memes/General/gen_e3ca.jpg",
-    "memes/General/gen_n13k.jpg",
-    "memes/General/geoscripting-ta.jpg",
     "memes/General/recursion.jpg"
   ],
   "Git": [
@@ -99,8 +101,14 @@
     "memes/Git/WhatsApp Image 2025-09-01 at 20.15.01.jpeg",
     "memes/Git/WhatsApp Image 2025-09-02 at 15.54.07.jpeg",
     "memes/Git/WhatsApp Image 2025-09-03 at 16.01.10.jpeg",
+    "memes/Git/a5s6sr.jpg",
+    "memes/Git/a5s715.jpg",
+    "memes/Git/a5s99h.jpg",
+    "memes/Git/a5sd5a.jpg",
+    "memes/Git/a5sk3u.jpg",
     "memes/Git/codegrade-issues.jpg",
     "memes/Git/codegrade.jpg",
+    "memes/Git/codegrade_datadir.jpg",
     "memes/Git/codegrade_hate.jpg",
     "memes/Git/gen_8b68.png",
     "memes/Git/git_32c2.jpg",
@@ -134,12 +142,14 @@
     "memes/Git/usetheforce.jpg"
   ],
   "Licenses": [
+    "memes/Licenses/Going Nuclear.jpg",
     "memes/Licenses/License.jpg",
     "memes/Licenses/git_35f9.jpg",
     "memes/Licenses/git_46d1.jpg",
     "memes/Licenses/license2.jpg"
   ],
   "Monday": [
+    "memes/Monday/gen_b1c4.png",
     "memes/Monday/monday_48e4.jpg",
     "memes/Monday/monday_4de4.jpg",
     "memes/Monday/monday_962b.jpg",
@@ -149,6 +159,7 @@
   ],
   "Project&Assignment": [
     "memes/Project&Assignment/assign_d9d2.png",
+    "memes/Project&Assignment/communism.jpg",
     "memes/Project&Assignment/ex5_8447.png",
     "memes/Project&Assignment/geoscripting_project.jpg",
     "memes/Project&Assignment/project_1d3a.jpg",
@@ -195,5 +206,16 @@
     "memes/R/R_b036.webp",
     "memes/R/R_d1d3.png",
     "memes/R/git_7b71.png"
+  ],
+  "Staff": [
+    "memes/Staff/15mins_meme.jpg",
+    "memes/Staff/Coffee.jpg",
+    "memes/Staff/TA_meme.jpg",
+    "memes/Staff/Untitled.jpg",
+    "memes/Staff/WybrenhatesR.jpg",
+    "memes/Staff/Wybrenmakingmemes.jpg",
+    "memes/Staff/dainius-deadline.jpg",
+    "memes/Staff/geoscripting-ta.jpg",
+    "memes/Staff/macbook.jpg"
   ]
 }

@@ -51,6 +51,30 @@ async function loadMemes() {
     }
   });
 
+  // Select All/None buttons
+  const selectAllBtn = document.getElementById('selectAllBtn');
+  const selectNoneBtn = document.getElementById('selectNoneBtn');
+
+  if (selectAllBtn && selectNoneBtn) {
+    selectAllBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('Select All clicked');
+      document.querySelectorAll('.folder-checkbox').forEach(cb => {
+        cb.checked = true;
+      });
+    });
+
+    selectNoneBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('Select None clicked');
+      document.querySelectorAll('.folder-checkbox').forEach(cb => {
+        cb.checked = false;
+      });
+    });
+  } else {
+    console.error('Select All/None buttons not found!');
+  }
+
   // Apply folder selection
   applyBtn.addEventListener('click', () => {
     selectedFolders = Array.from(document.querySelectorAll('.folder-checkbox:checked')).map(cb => cb.value);
