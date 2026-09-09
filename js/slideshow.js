@@ -9,9 +9,37 @@ let intervalTime = 30000; // Default 30 seconds
 let selectedFolders = []; // Will be set when memes are loaded
 let slideshowMemes = [];
 
+const GITHUB_REPO = 'GeoScripting-WUR/geoscripting-memes';
+const GITHUB_BRANCH = 'main';
+const MEME_DIR = 'memes';
+const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+
+async function fetchMemesFromGitHub() {
+  const url = `https://api.github.com/repos/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
+  const response = await fetch(url);
+  const data = await response.json();
+
+  const result = {};
+  data.tree.forEach(entry => {
+    if (entry.type !== 'blob' || !entry.path.startsWith(`${MEME_DIR}/`)) return;
+    const ext = entry.path.slice(entry.path.lastIndexOf('.')).toLowerCase();
+    if (!IMAGE_EXTENSIONS.includes(ext)) return;
+
+    const rest = entry.path.slice(MEME_DIR.length + 1);
+    const slashIndex = rest.indexOf('/');
+    if (slashIndex === -1) return; // skip files directly in memes/, not in a theme folder
+
+    const theme = rest.slice(0, slashIndex);
+    if (!result[theme]) result[theme] = [];
+    result[theme].push(entry.path);
+  });
+
+  Object.values(result).forEach(images => images.sort());
+  return result;
+}
+
 async function loadMemes() {
-  const response = await fetch('memes.json');
-  memes = await response.json();
+  memes = await fetchMemesFromGitHub();
 
   // Dynamically generate folder checkboxes in dialog
   const folderCheckboxes = document.getElementById('folderCheckboxes');
