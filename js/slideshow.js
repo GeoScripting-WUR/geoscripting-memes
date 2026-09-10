@@ -12,7 +12,8 @@ let slideshowMemes = [];
 const GITHUB_REPO = 'GeoScripting-WUR/geoscripting-memes';
 const GITHUB_BRANCH = 'main';
 const MEME_DIR = 'memes';
-const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+const VIDEO_EXTENSIONS = ['.mp4'];
+const MEDIA_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', ...VIDEO_EXTENSIONS];
 
 async function fetchMemesFromGitHub() {
   const url = `https://api.github.com/repos/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
@@ -23,7 +24,7 @@ async function fetchMemesFromGitHub() {
   data.tree.forEach(entry => {
     if (entry.type !== 'blob' || !entry.path.startsWith(`${MEME_DIR}/`)) return;
     const ext = entry.path.slice(entry.path.lastIndexOf('.')).toLowerCase();
-    if (!IMAGE_EXTENSIONS.includes(ext)) return;
+    if (!MEDIA_EXTENSIONS.includes(ext)) return;
 
     const rest = entry.path.slice(MEME_DIR.length + 1);
     const slashIndex = rest.indexOf('/');
@@ -141,8 +142,24 @@ function updateSlideshowMemes() {
 
 function showMeme() {
   if (slideshowMemes.length === 0) return;
+  const path = slideshowMemes[currentIndex];
+  const ext = path.slice(path.lastIndexOf('.')).toLowerCase();
   const img = document.getElementById('memeImage');
-  img.src = slideshowMemes[currentIndex];
+  const video = document.getElementById('memeVideo');
+
+  video.pause();
+
+  if (VIDEO_EXTENSIONS.includes(ext)) {
+    img.style.display = 'none';
+    video.style.display = '';
+    video.src = path;
+    video.play();
+  } else {
+    video.removeAttribute('src');
+    video.style.display = 'none';
+    img.style.display = '';
+    img.src = path;
+  }
 }
 
 function nextMeme() {

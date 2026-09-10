@@ -229,7 +229,8 @@ body {
   position: relative;
 }
 
-.meme-display img {
+.meme-display img,
+.meme-display video {
   width: 100%;
   height: 90vh;
   border-radius: 12px;
@@ -239,7 +240,12 @@ body {
   transition: all 0.3s ease;
 }
 
-.meme-display img:hover {
+#memeVideo {
+  display: none;
+}
+
+.meme-display img:hover,
+.meme-display video:hover {
   transform: scale(1.02);
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.9);
 }
@@ -391,7 +397,8 @@ body {
     padding: 3px;
   }
   
-  .meme-display img {
+  .meme-display img,
+  .meme-display video {
     height: 85vh;
   }
   
