@@ -4,7 +4,7 @@ let currentTheme = null;
 let currentIndex = 0;
 let interval = null;
 let playing = true;
-let intervalTime = 30000; // Default 30 seconds
+let intervalTime = 90000; // Default 90 seconds
 
 let selectedFolders = []; // Will be set when memes are loaded
 let slideshowMemes = [];
