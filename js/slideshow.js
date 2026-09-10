@@ -41,6 +41,7 @@ async function fetchMemesFromGitHub() {
 
 async function loadMemes() {
   memes = await fetchMemesFromGitHub();
+  console.log('Memes loaded:', memes);
 
   // Dynamically generate folder checkboxes in dialog
   const folderCheckboxes = document.getElementById('folderCheckboxes');
@@ -115,7 +116,7 @@ async function loadMemes() {
 
   // Initialize selectedFolders with all available folders
   selectedFolders = Object.keys(memes);
-  
+
   updateSlideshowMemes();
   showMeme();
   startSlideshow();
@@ -151,13 +152,13 @@ function showMeme() {
 
   if (VIDEO_EXTENSIONS.includes(ext)) {
     img.style.display = 'none';
-    video.style.display = '';
+    video.style.display = 'block';
     video.src = path;
     video.play();
   } else {
     video.removeAttribute('src');
     video.style.display = 'none';
-    img.style.display = '';
+    img.style.display = 'block';
     img.src = path;
   }
 }
@@ -195,19 +196,19 @@ function togglePlayPause() {
 function updateInterval() {
   const slider = document.getElementById('intervalSlider');
   const valueDisplay = document.getElementById('intervalValue');
-  
+
   if (!slider || !valueDisplay) {
     console.error('Slider or value display elements not found!');
     return;
   }
-  
+
   const newInterval = parseInt(slider.value) * 1000; // Convert to milliseconds
-  
+
   console.log('Slider changed to:', slider.value, 'seconds (', newInterval, 'ms)');
-  
+
   intervalTime = newInterval;
   valueDisplay.textContent = slider.value;
-  
+
   // Restart slideshow with new interval if playing
   if (playing) {
     console.log('Restarting slideshow with new interval:', intervalTime);
@@ -217,27 +218,27 @@ function updateInterval() {
 
 document.addEventListener('DOMContentLoaded', () => {
   loadMemes();
-  
+
   // Initialize the interval display
   const slider = document.getElementById('intervalSlider');
   const valueDisplay = document.getElementById('intervalValue');
-  
+
   if (!slider || !valueDisplay) {
     console.error('Could not find slider or value display elements during initialization!');
     return;
   }
-  
+
   intervalTime = parseInt(slider.value) * 1000;
   valueDisplay.textContent = slider.value;
-  
+
   console.log('Initialized with slider value:', slider.value, 'intervalTime:', intervalTime);
-  
+
   // Add event listeners
   document.getElementById('nextBtn').addEventListener('click', nextMeme);
   document.getElementById('prevBtn').addEventListener('click', prevMeme);
   document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
   document.getElementById('intervalSlider').addEventListener('input', updateInterval);
   document.getElementById('intervalSlider').addEventListener('change', updateInterval);
-  
+
   console.log('DOM loaded, initial interval:', intervalTime);
 });
