@@ -12,7 +12,8 @@ let slideshowMemes = [];
 const GITHUB_REPO = 'GeoScripting-WUR/geoscripting-memes';
 const GITHUB_BRANCH = 'main';
 const MEME_DIR = 'memes';
-const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+const VIDEO_EXTENSIONS = ['.mp4'];
+const MEDIA_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', ...VIDEO_EXTENSIONS];
 
 async function fetchMemesFromGitHub() {
   const url = `https://api.github.com/repos/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
@@ -23,7 +24,7 @@ async function fetchMemesFromGitHub() {
   data.tree.forEach(entry => {
     if (entry.type !== 'blob' || !entry.path.startsWith(`${MEME_DIR}/`)) return;
     const ext = entry.path.slice(entry.path.lastIndexOf('.')).toLowerCase();
-    if (!IMAGE_EXTENSIONS.includes(ext)) return;
+    if (!MEDIA_EXTENSIONS.includes(ext)) return;
 
     const rest = entry.path.slice(MEME_DIR.length + 1);
     const slashIndex = rest.indexOf('/');
@@ -40,6 +41,7 @@ async function fetchMemesFromGitHub() {
 
 async function loadMemes() {
   memes = await fetchMemesFromGitHub();
+  console.log('Memes loaded:', memes);
 
   // Dynamically generate folder checkboxes in dialog
   const folderCheckboxes = document.getElementById('folderCheckboxes');
@@ -114,7 +116,7 @@ async function loadMemes() {
 
   // Initialize selectedFolders with all available folders
   selectedFolders = Object.keys(memes);
-  
+
   updateSlideshowMemes();
   showMeme();
   startSlideshow();
@@ -141,8 +143,24 @@ function updateSlideshowMemes() {
 
 function showMeme() {
   if (slideshowMemes.length === 0) return;
+  const path = slideshowMemes[currentIndex];
+  const ext = path.slice(path.lastIndexOf('.')).toLowerCase();
   const img = document.getElementById('memeImage');
-  img.src = slideshowMemes[currentIndex];
+  const video = document.getElementById('memeVideo');
+
+  video.pause();
+
+  if (VIDEO_EXTENSIONS.includes(ext)) {
+    img.style.display = 'none';
+    video.style.display = 'block';
+    video.src = path;
+    video.play();
+  } else {
+    video.removeAttribute('src');
+    video.style.display = 'none';
+    img.style.display = 'block';
+    img.src = path;
+  }
 }
 
 function nextMeme() {
@@ -178,19 +196,19 @@ function togglePlayPause() {
 function updateInterval() {
   const slider = document.getElementById('intervalSlider');
   const valueDisplay = document.getElementById('intervalValue');
-  
+
   if (!slider || !valueDisplay) {
     console.error('Slider or value display elements not found!');
     return;
   }
-  
+
   const newInterval = parseInt(slider.value) * 1000; // Convert to milliseconds
-  
+
   console.log('Slider changed to:', slider.value, 'seconds (', newInterval, 'ms)');
-  
+
   intervalTime = newInterval;
   valueDisplay.textContent = slider.value;
-  
+
   // Restart slideshow with new interval if playing
   if (playing) {
     console.log('Restarting slideshow with new interval:', intervalTime);
@@ -200,27 +218,27 @@ function updateInterval() {
 
 document.addEventListener('DOMContentLoaded', () => {
   loadMemes();
-  
+
   // Initialize the interval display
   const slider = document.getElementById('intervalSlider');
   const valueDisplay = document.getElementById('intervalValue');
-  
+
   if (!slider || !valueDisplay) {
     console.error('Could not find slider or value display elements during initialization!');
     return;
   }
-  
+
   intervalTime = parseInt(slider.value) * 1000;
   valueDisplay.textContent = slider.value;
-  
+
   console.log('Initialized with slider value:', slider.value, 'intervalTime:', intervalTime);
-  
+
   // Add event listeners
   document.getElementById('nextBtn').addEventListener('click', nextMeme);
   document.getElementById('prevBtn').addEventListener('click', prevMeme);
   document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
   document.getElementById('intervalSlider').addEventListener('input', updateInterval);
   document.getElementById('intervalSlider').addEventListener('change', updateInterval);
-  
+
   console.log('DOM loaded, initial interval:', intervalTime);
 });
