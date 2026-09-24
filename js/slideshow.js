@@ -15,13 +15,19 @@ const MEME_DIR = 'memes';
 const VIDEO_EXTENSIONS = ['.mp4'];
 const MEDIA_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp', ...VIDEO_EXTENSIONS];
 
-async function fetchMemesFromGitHub() {
+const ANIMATION_DIR = 'js/animations';
+const animations = {}; // id (file name) -> { label, out, in }
+
+async function fetchRepoTree() {
   const url = `https://api.github.com/repos/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
   const response = await fetch(url);
   const data = await response.json();
+  return data.tree;
+}
 
+function memesFromTree(tree) {
   const result = {};
-  data.tree.forEach(entry => {
+  tree.forEach(entry => {
     if (entry.type !== 'blob' || !entry.path.startsWith(`${MEME_DIR}/`)) return;
     const ext = entry.path.slice(entry.path.lastIndexOf('.')).toLowerCase();
     if (!MEDIA_EXTENSIONS.includes(ext)) return;
@@ -39,8 +45,78 @@ async function fetchMemesFromGitHub() {
   return result;
 }
 
+// When served locally, a directory-listing server lets new animation files show up without pushing.
+async function listAnimationFilesLocally() {
+  if (!['localhost', '127.0.0.1', ''].includes(location.hostname)) return null;
+  try {
+    const response = await fetch(`${ANIMATION_DIR}/`);
+    if (!response.ok) return null;
+    const html = await response.text();
+    const files = [...html.matchAll(/href="([^"?#]*\.js)"/gi)].map(m => decodeURIComponent(m[1].split('/').pop()));
+    return files.length ? files : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function listAnimationFiles(tree) {
+  const local = await listAnimationFilesLocally();
+  if (local) return local;
+  return tree
+    .filter(e => e.type === 'blob' && e.path.startsWith(`${ANIMATION_DIR}/`) && e.path.endsWith('.js'))
+    .map(e => e.path.slice(ANIMATION_DIR.length + 1))
+    .filter(name => !name.includes('/'));
+}
+
+async function loadAnimations(tree) {
+  let files = [];
+  try {
+    files = await listAnimationFiles(tree);
+  } catch (e) {
+    console.error('Could not list animations:', e);
+  }
+
+  await Promise.all(files.sort().map(async file => {
+    try {
+      const mod = await import(`./animations/${file}`);
+      const anim = mod.default;
+      if (!anim || typeof anim.out !== 'function' || typeof anim.in !== 'function') {
+        throw new Error('default export needs out() and in() functions');
+      }
+      animations[file.replace(/\.js$/, '')] = anim;
+    } catch (e) {
+      console.error(`Skipping animation ${file}:`, e);
+    }
+  }));
+
+  buildAnimationOptions();
+}
+
+function buildAnimationOptions() {
+  let saved = null;
+  try { saved = localStorage.getItem('animation'); } catch (e) { /* storage unavailable */ }
+  const selected = saved === 'off' || animations[saved] ? saved : (animations.swivel ? 'swivel' : 'off');
+
+  const options = [['off', 'Off'], ...Object.entries(animations).map(([id, a]) => [id, a.label || id])];
+  const container = document.getElementById('animationOptions');
+  container.innerHTML = '';
+  options.forEach(([id, label]) => {
+    const wrapper = document.createElement('label');
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'animation';
+    radio.value = id;
+    radio.checked = id === selected;
+    wrapper.appendChild(radio);
+    wrapper.appendChild(document.createTextNode(label));
+    container.appendChild(wrapper);
+  });
+}
+
 async function loadMemes() {
-  memes = await fetchMemesFromGitHub();
+  const tree = await fetchRepoTree();
+  loadAnimations(tree);
+  memes = memesFromTree(tree);
   console.log('Memes loaded:', memes);
 
   // Dynamically generate folder checkboxes in dialog
@@ -153,29 +229,32 @@ function activeMediaElement() {
 
 let transitionId = 0;
 
-// Swivel the current meme edge-on, swap it, then swivel the new one in.
+async function runAnimation(fn, el) {
+  try {
+    const result = fn(el);
+    await (result && result.finished ? result.finished : result);
+  } catch (e) {
+    /* a cancelled or failing animation must not block the slideshow */
+  }
+}
+
+// Run the selected animation: animate out, swap the meme, animate in.
 async function transitionMeme() {
   const id = ++transitionId;
   const hasCurrent = document.getElementById('memeImage').getAttribute('src') || document.getElementById('memeVideo').getAttribute('src');
-  if (getAnimation() !== 'swivel' || !hasCurrent) {
+  if (!animations[getAnimation()] || !hasCurrent) {
     showMeme();
     return;
   }
 
-  const half = 250;
-  await activeMediaElement().animate(
-    [{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(90deg)' }],
-    { duration: half, easing: 'ease-in', fill: 'forwards' }
-  ).finished.catch(() => {});
+  const anim = animations[getAnimation()];
+  await runAnimation(anim.out, activeMediaElement());
   if (id !== transitionId) return; // superseded by a newer transition
 
   showMeme();
   const incoming = activeMediaElement();
   incoming.getAnimations().forEach(a => a.cancel());
-  incoming.animate(
-    [{ transform: 'rotateY(-90deg)' }, { transform: 'rotateY(0deg)' }],
-    { duration: half, easing: 'ease-out' }
-  );
+  runAnimation(anim.in, incoming);
 }
 
 function showMeme() {
@@ -233,17 +312,12 @@ function togglePlayPause() {
 
 function setupAnimationDialog() {
   const dialog = document.getElementById('animationDialog');
-  const radios = document.querySelectorAll('input[name="animation"]');
 
-  try {
-    const saved = localStorage.getItem('animation');
-    radios.forEach(r => { r.checked = r.value === (saved || 'swivel'); });
-  } catch (e) { /* storage unavailable */ }
-
-  radios.forEach(r => r.addEventListener('change', () => {
-    try { localStorage.setItem('animation', r.value); } catch (e) { /* ignore */ }
+  // Options are generated dynamically, so listen on the container.
+  document.getElementById('animationOptions').addEventListener('change', (e) => {
+    try { localStorage.setItem('animation', e.target.value); } catch (err) { /* ignore */ }
     dialog.style.display = 'none';
-  }));
+  });
 
   document.getElementById('animationBtn').addEventListener('click', () => {
     dialog.style.display = 'flex';
