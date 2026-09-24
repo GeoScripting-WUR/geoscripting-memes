@@ -141,6 +141,43 @@ function updateSlideshowMemes() {
   slideshowMemes = shuffleArray(slideshowMemes);
 }
 
+function getAnimation() {
+  const checked = document.querySelector('input[name="animation"]:checked');
+  return checked ? checked.value : 'off';
+}
+
+function activeMediaElement() {
+  const video = document.getElementById('memeVideo');
+  return video.style.display === 'block' ? video : document.getElementById('memeImage');
+}
+
+let transitionId = 0;
+
+// Swivel the current meme edge-on, swap it, then swivel the new one in.
+async function transitionMeme() {
+  const id = ++transitionId;
+  const hasCurrent = document.getElementById('memeImage').getAttribute('src') || document.getElementById('memeVideo').getAttribute('src');
+  if (getAnimation() !== 'swivel' || !hasCurrent) {
+    showMeme();
+    return;
+  }
+
+  const half = 250;
+  await activeMediaElement().animate(
+    [{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(90deg)' }],
+    { duration: half, easing: 'ease-in', fill: 'forwards' }
+  ).finished.catch(() => {});
+  if (id !== transitionId) return; // superseded by a newer transition
+
+  showMeme();
+  const incoming = activeMediaElement();
+  incoming.getAnimations().forEach(a => a.cancel());
+  incoming.animate(
+    [{ transform: 'rotateY(-90deg)' }, { transform: 'rotateY(0deg)' }],
+    { duration: half, easing: 'ease-out' }
+  );
+}
+
 function showMeme() {
   if (slideshowMemes.length === 0) return;
   const path = slideshowMemes[currentIndex];
@@ -149,6 +186,7 @@ function showMeme() {
   const video = document.getElementById('memeVideo');
 
   video.pause();
+  [img, video].forEach(el => el.getAnimations().forEach(a => a.cancel()));
 
   if (VIDEO_EXTENSIONS.includes(ext)) {
     img.style.display = 'none';
@@ -166,13 +204,13 @@ function showMeme() {
 function nextMeme() {
   if (slideshowMemes.length === 0) return;
   currentIndex = (currentIndex + 1) % slideshowMemes.length;
-  showMeme();
+  transitionMeme();
 }
 
 function prevMeme() {
   if (slideshowMemes.length === 0) return;
   currentIndex = (currentIndex - 1 + slideshowMemes.length) % slideshowMemes.length;
-  showMeme();
+  transitionMeme();
 }
 
 function startSlideshow() {
@@ -191,6 +229,31 @@ function togglePlayPause() {
     btn.textContent = '▶';
     clearInterval(interval);
   }
+}
+
+function setupAnimationDialog() {
+  const dialog = document.getElementById('animationDialog');
+  const radios = document.querySelectorAll('input[name="animation"]');
+
+  try {
+    const saved = localStorage.getItem('animation');
+    radios.forEach(r => { r.checked = r.value === (saved || 'swivel'); });
+  } catch (e) { /* storage unavailable */ }
+
+  radios.forEach(r => r.addEventListener('change', () => {
+    try { localStorage.setItem('animation', r.value); } catch (e) { /* ignore */ }
+    dialog.style.display = 'none';
+  }));
+
+  document.getElementById('animationBtn').addEventListener('click', () => {
+    dialog.style.display = 'flex';
+  });
+  document.getElementById('closeAnimationDialog').addEventListener('click', () => {
+    dialog.style.display = 'none';
+  });
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.style.display = 'none';
+  });
 }
 
 function updateInterval() {
@@ -218,6 +281,7 @@ function updateInterval() {
 
 document.addEventListener('DOMContentLoaded', () => {
   loadMemes();
+  setupAnimationDialog();
 
   // Initialize the interval display
   const slider = document.getElementById('intervalSlider');
