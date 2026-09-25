@@ -229,6 +229,26 @@ function activeMediaElement() {
 
 let transitionId = 0;
 
+const preloaded = new Map(); // path -> Promise, so each image is only fetched once
+
+// Fetch and decode an image ahead of time so it appears instantly when swapped in.
+function preloadMeme(path) {
+  if (!path) return Promise.resolve();
+  const ext = path.slice(path.lastIndexOf('.')).toLowerCase();
+  if (VIDEO_EXTENSIONS.includes(ext)) return Promise.resolve();
+  if (!preloaded.has(path)) {
+    const img = new Image();
+    img.src = path;
+    preloaded.set(path, img.decode().catch(() => {}));
+  }
+  return preloaded.get(path);
+}
+
+// Never let a slow or failing load stall the slideshow for long.
+function preloadWithTimeout(path, ms = 5000) {
+  return Promise.race([preloadMeme(path), new Promise(resolve => setTimeout(resolve, ms))]);
+}
+
 async function runAnimation(fn, el) {
   try {
     const result = fn(el);
@@ -244,17 +264,23 @@ async function transitionMeme() {
   const hasCurrent = document.getElementById('memeImage').getAttribute('src') || document.getElementById('memeVideo').getAttribute('src');
   if (!animations[getAnimation()] || !hasCurrent) {
     showMeme();
+    preloadMeme(slideshowMemes[(currentIndex + 1) % slideshowMemes.length]);
     return;
   }
 
   const anim = animations[getAnimation()];
-  await runAnimation(anim.out, activeMediaElement());
+  // Load the next image while the current one animates out.
+  await Promise.all([
+    runAnimation(anim.out, activeMediaElement()),
+    preloadWithTimeout(slideshowMemes[currentIndex]),
+  ]);
   if (id !== transitionId) return; // superseded by a newer transition
 
   showMeme();
   const incoming = activeMediaElement();
   incoming.getAnimations().forEach(a => a.cancel());
   runAnimation(anim.in, incoming);
+  preloadMeme(slideshowMemes[(currentIndex + 1) % slideshowMemes.length]);
 }
 
 function showMeme() {
